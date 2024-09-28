@@ -61,4 +61,4 @@ Reverse Linkedlist
 {ID:Student6, Grade:95}->{ID:Student7, Grade:88}->{ID:Student8, Grade:82}->{ID:Student9, Grade:80}->{ID:Student10, Grade:70}->{ID:Student11, Grade:60}
 Cross node
 {ID:Student4, Grade:70}
-​```
+```
