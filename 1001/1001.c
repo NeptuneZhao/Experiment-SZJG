@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-// 以下部分是已实现好的
+// All right
 typedef struct node
 {
     char id[11];
@@ -11,6 +11,7 @@ typedef struct node
 } list;
 
 // 创建交叉列表
+// All right
 void create(list *a, list *b, int _before1, int _before2){
     // a 和 b 后面若干结点值相同
     // _before1 为跳过的 a 中的个数, 从第 _before1 + 1 个结点开始相交
@@ -33,6 +34,7 @@ void create(list *a, list *b, int _before1, int _before2){
 }
 
 // 程序结束后销毁交叉列表
+// All right
 void destroy(list *a, list *b, list *_cross)
 {
     list *p = _cross -> next, *q;
@@ -48,7 +50,7 @@ void destroy(list *a, list *b, list *_cross)
         free(a);
         a = q;
     }
-    while(b != _cross)
+    while (b != _cross)
     {
         q = b -> next;
         free(b);
@@ -58,18 +60,17 @@ void destroy(list *a, list *b, list *_cross)
 }
 
 // 打印单个结点
+// All right
 void print_one(list *node){
     printf("{ID:%s, Grade:%d}", node -> id, node -> grade);
     if (node -> next != NULL)
-    {
         printf("->");
-    }
     else
         printf("\n");
 }
 
 // 以下部分是需要学生自己实现的
-// 打印整个列表
+// All right
 void print_all(list *head)
 {
     // 用于单个节点输出的函数 print_one 已提供
@@ -82,8 +83,11 @@ void print_all(list *head)
     }
 }
 
-// 新建一个链表node并返回
-list* create_one(char id[], int grade)
+// 新建一个 node 并返回
+// node.grade = grade;
+// node.next = NULL;
+// All right
+list* create_one(char *id, int grade)
 {
     // malloc 的时候记得为转化为结构体指针
     list *node = (list*)malloc(sizeof(list));
@@ -93,20 +97,27 @@ list* create_one(char id[], int grade)
     return node;
 }
 
-// 按照降序插入学生的成绩情况,并返回链表头指针
+// 按照降序插入学生的成绩情况, 并返回链表头指针
+// TODO: fix
 list* add_one(list *head, list *node)
 {
     list *p = head, *q = NULL;
+
+    // 第一个
     if (head == NULL)
     {
         head = node;
         return head;
     }
-    while (p && p -> grade > node -> grade)
+
+    // p 是上一个 node
+    // 四次错误的根源: 忘加等号了...
+    while (p && (p -> grade >= node -> grade))
     {
         q = p;
         p = p -> next;
     }
+
     if (q == NULL)
     {
         node -> next = head;
@@ -117,10 +128,12 @@ list* add_one(list *head, list *node)
         q -> next = node;
         node -> next = p;
     }
+
     return head;
 }
 
 // 反转链表
+// All right
 list* reverse_one(list *head)
 {
     list *p = head, *q = NULL, *r;
@@ -135,10 +148,11 @@ list* reverse_one(list *head)
 }
 
 // 找到相交的第一个结点
+// All right
 list* findCrossBeginNode(list *class1, list *class2) {
     // class1 和 class2 在后一部分完全重合 (结点的内存地址相同)
     // 请找出并返回开始相交的第一个结点
-    // 请不要简单地通过结点结构体的成员来判断
+    // 请不 (bi) 要 (xu) 简单地通过结点结构体的成员来判断
     list *p = class1, *q = class2;
     while (p != q)
     {
@@ -186,15 +200,14 @@ int main()
     // 输出1 存储列表结果
     class1 = reverse_one(class1);
     class2 = reverse_one(class2);
+
     printf("Store Linkedlist\n");
     print_all(class1);
     print_all(class2);
 
-    // 执行反转链表操作
+    // 输出2 反转列表结果
     class1 = reverse_one(class1);
     class2 = reverse_one(class2);
-
-    // 输出2 反转列表结果
     printf("Reverse Linkedlist\n");
     print_all(class1);
     print_all(class2);
