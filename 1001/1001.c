@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define PASS "passed"
+
 // All right
 typedef struct node
 {
@@ -98,7 +100,7 @@ list* create_one(char *id, int grade)
 }
 
 // 按照降序插入学生的成绩情况, 并返回链表头指针
-// TODO: fix
+// All right
 list* add_one(list *head, list *node)
 {
     list *p = head, *q = NULL;

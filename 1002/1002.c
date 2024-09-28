@@ -1,6 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#define PASS "passed"
+
 // 数组容量
 #define MaxSize 40
 
@@ -21,13 +23,6 @@ typedef struct stack
     DataType data[MaxSize];
     int top; // 栈顶指针
 } Stack;
-
-typedef struct queue
-{
-    Stack *stack_in;
-    Stack *stack_out;
-} Queue;
-
 
 /**
  * 初始化一个栈
@@ -83,9 +78,9 @@ int GetTop(Stack S, DataType *e)
 }
 
 /**
- * 判断栈是否空，为空返回1，否则返回0
+ * 判断栈是否空
  * @param S
- * @return
+ * @return 为空返回1，否则返回0
  */
 int StackEmpty(Stack S)
 {
