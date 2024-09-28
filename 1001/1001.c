@@ -224,5 +224,6 @@ int main()
 
     // 销毁交叉链表
     destroy(class1, class2, node);
+
     return 0;
 }

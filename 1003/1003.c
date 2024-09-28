@@ -147,6 +147,7 @@ int main()
                 RefreshStdin();
                 break;
             default:
+                RefreshStdin();
                 break;
         }
     }
