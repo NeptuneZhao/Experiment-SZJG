@@ -11,10 +11,6 @@
 #define GET_TOP 2
 #define STACK_EMPTY 3
 #define EXIT -1
-#define ENQUEUE 4
-#define DEQUEUE 5
-#define GET_HEAD 6
-#define QUEUE_EMPTY 7
 
 typedef int DataType;
 
@@ -94,11 +90,9 @@ int StackEmpty(Stack S)
  */
 void StackToArray(Stack S, DataType *seq)
 {
-    int i = 0;
-    for (; i <= S.top; i++)
-    {
-        seq[i] = S.data[S.top-i]; // 自栈顶至栈底
-    }
+    for (int i = 0; i <= S.top; i++)
+        // 自栈顶至栈底
+        seq[i] = S.data[S.top - i];
 }
 
 /**
