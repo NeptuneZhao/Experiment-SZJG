@@ -3,96 +3,115 @@
 #include <stdbool.h>
 #include <string.h>
 
-typedef struct TreeNode {
+// HalfCooler 锐评 OJ 烂代码
+// 什么玩意还要自定义 max?
+// 谁教你的数组初始化 array[var]?
+// 老师没教过你初始化不能用变量吗? 为什么不用 malloc?
+// Github Copilot: 你这个代码写的什么玩意, 你这个代码写的什么玩意
+
+typedef struct TreeNode
+{
     int id;
     int val;
     struct TreeNode *left;
     struct TreeNode *right;
 } TreeNode, *TreeNodePtr;
 
-typedef struct ListNode {
+typedef struct ListNode
+{
     struct TreeNode *node; // 队列的值的类型是树节点指针
     struct ListNode *next;
 } ListNode, *ListNodePtr;
 
-typedef struct Queue {
+typedef struct Queue
+{
     ListNodePtr dummyHead;
     ListNodePtr tail;
     int size;
 } *QueuePtr;
 
 // 创建链表的节点
-ListNodePtr createListNode(TreeNodePtr node, ListNodePtr next) {
+ListNodePtr createListNode(TreeNodePtr node, ListNodePtr next)
+{
     ListNodePtr curr = (ListNodePtr) (malloc(sizeof(ListNode)));
-    curr->node = node;
-    curr->next = next;
+    curr -> node = node;
+    curr -> next = next;
     return curr;
 }
 
-// 创建树的节点
+// 创建树节点
 int TreeId = 0;
 
-TreeNodePtr createTreeNode(int val, TreeNodePtr left, TreeNodePtr right) {
+TreeNodePtr createTreeNode(int val, TreeNodePtr left, TreeNodePtr right)
+{
     TreeNodePtr curr = (TreeNodePtr) (malloc(sizeof(TreeNode)));
-    curr->id = TreeId++;
-    curr->val = val;
-    curr->left = left;
-    curr->right = right;
+    curr -> id = TreeId++;
+    curr -> val = val;
+    curr -> left = left;
+    curr -> right = right;
     return curr;
 }
 
 // 单链表队列初始化
-QueuePtr InitQueue() {
+QueuePtr InitQueue()
+{
     QueuePtr queue = (QueuePtr) malloc(sizeof(struct Queue));
     TreeNodePtr dummyTreeNode = createTreeNode(-1, NULL, NULL);
-    queue->size = 0;
-    queue->dummyHead = createListNode(dummyTreeNode, NULL);
-    queue->tail = queue->dummyHead;
+    queue -> size = 0;
+    queue -> dummyHead = createListNode(dummyTreeNode, NULL);
+    queue -> tail = queue -> dummyHead;
     return queue;
 }
 
 // 在 queue 的尾部添加一个元素的副本
-void EnQueue(QueuePtr queue, TreeNodePtr node) {
+void EnQueue(QueuePtr queue, TreeNodePtr node)
+{
     ListNodePtr curr = createListNode(node, NULL);
-    queue->tail->next = curr;
-    queue->tail = queue->tail->next;
-    queue->size++;
+    queue -> tail -> next = curr;
+    queue -> tail = queue -> tail -> next;
+    queue -> size++;
 }
 
 // 删除 queue 中的第一个元素
-void DeQueue(QueuePtr queue) {
-    if (queue->size == 0) {
+void DeQueue(QueuePtr queue)
+{
+    if (queue -> size == 0)
+    {
+        // NB 啊, 还会抛异常呢
         perror("error! the size of queue is zero when call DeQueue().");
         return;
     }
-    ListNodePtr head = queue->dummyHead->next;
-    queue->dummyHead->next = head->next;
-    queue->size--;
-    if (queue->size == 0) queue->tail = queue->dummyHead;
+    ListNodePtr head = queue -> dummyHead -> next;
+    queue -> dummyHead -> next = head -> next;
+    queue -> size--;
+    if (queue -> size == 0)
+        queue -> tail = queue -> dummyHead;
     free(head);
+    return;
 }
 
-// 如果 queue 中没有元素, 返回 true
-bool QueueEmpty(QueuePtr queue) {
-    return queue->size == 0;
+// @param queue 队列
+// @return 如果 queue 中没有元素, 返回 true
+bool QueueEmpty(QueuePtr queue)
+{
+    return queue -> size == 0;
 }
 
-// 返回 queue 中第一个元素的引用
-TreeNodePtr GetHead(QueuePtr queue) {
-    if (QueueEmpty(queue)) {
+// @return queue 中第一个元素的引用
+TreeNodePtr GetHead(QueuePtr queue)
+{
+    if (QueueEmpty(queue))
+    {
         perror("error! the size of queue is zero when call front().");
         return NULL;
-    } else {
-        return queue->dummyHead->next->node;
     }
-}
-
-int max(int a, int b) {
-    return (a >= b) ? a : b;
+    else
+        return queue -> dummyHead -> next -> node;
 }
 
 // 将输入转换为数组
-void getDigits(char *buff, int *data) {
+void getDigits(char *buff, int *data)
+{
     int len = strlen(buff);
     int index = 0;
     for (int i = 0; i < len; i++) {
@@ -209,7 +228,7 @@ void postOrderTraverse(TreeNodePtr root) {
 
 int main() {
 
-    int SIZE = 128;
+    const int SIZE = 128;
     int MAX_NUM = 10;
     char buff[SIZE];
     int num;
