@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #define MaxSize 40
+#define PASS "passed"
 
 // All right
 // 1003 - 队列

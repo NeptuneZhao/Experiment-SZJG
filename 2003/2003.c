@@ -1,6 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define PASS "passed"
+
+// 我可告诉您, 我是 C# 出身的程序员
+// 对你们这些面向过程的挖煤工可是嗤之以鼻
+// 谁家好人自己写堆栈 队列 二叉树啊?
+
+// 再, 不要也不允许您评价我的代码
+// 我的代码首推美观, 您写的那个可进不了我的眼睛
+// 太肮脏了
+
 typedef struct BinaryTreeNode
 {
     int index;
@@ -28,7 +38,12 @@ BiTree* createTree(int* nodes, int index, int size)
     return root;
 }
 
+// 虽然全局变量很危险, 但
+// 这可是 C 语言
 int GlobalSummary = 0;
+
+// HalfCooler 锐评 C 语言程序员
+// 能死就赶紧死吧, Rust 已经傲视群雄了
 
 int IsLeftLeave(BiTree* node, BiTree* parent)
 {

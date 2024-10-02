@@ -20,12 +20,15 @@ void create(list *a, list *b, int _before1, int _before2){
     // _before2 为跳过的 b 中的个数, 从第 _before2 + 1 个结点开始相交
     // 相交方法是将 b 中的前一结点指向 a 中的首个相交结点
     list *p, *q;
+
     while (_before1--)
         a = a -> next;
     while (--_before2)
         b = b -> next;
+    
     p = b -> next;
     b -> next = a;
+    
     // 销毁野指针结点
     while (p)
     {

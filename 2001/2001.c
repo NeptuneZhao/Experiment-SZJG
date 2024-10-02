@@ -8,6 +8,7 @@
 // Github Copilot: 你这个代码写的什么玩意, 你这个代码写的什么玩意
 
 #define OJ_You_Make_Me_Feel_Amused So_HalfCooler_Rewrited_BinaryTree
+#define PASS "passed"
 
 typedef struct BinaryTreeNode
 {

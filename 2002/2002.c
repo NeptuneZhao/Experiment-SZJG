@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 // On the basis of 2001
+#define PASS "passed"
 
 typedef struct BinaryTreeNode
 {
