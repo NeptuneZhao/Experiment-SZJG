@@ -1,13 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// HalfCooler 锐评 OJ 烂代码
-// 什么玩意还要自定义 max?
-// 谁教你的数组初始化 array[var]?
-// 老师没教过你初始化不能用变量吗? 为什么不用 malloc?
-// Github Copilot: 你这个代码写的什么玩意, 你这个代码写的什么玩意
-
-#define OJ_You_Make_Me_Feel_Amused So_HalfCooler_Rewrited_BinaryTree
+// On the basis of 2001
 
 typedef struct BinaryTreeNode
 {
@@ -17,8 +11,6 @@ typedef struct BinaryTreeNode
 
 BiTree* createNode(int index)
 {
-    // I'm used to place a space between type and alloc.
-    // I love to use calloc instead of malloc.
     BiTree* newNode = (BiTree*) malloc(sizeof(BiTree));
 
     newNode -> index = index;
@@ -38,16 +30,6 @@ BiTree* createTree(int* nodes, int index, int size)
     return root;
 }
 
-void preOrderTraverse(BiTree* node)
-{
-    if (node == NULL)
-        return;
-    
-    printf(" %d", node -> index);
-    preOrderTraverse(node -> lchild);
-    preOrderTraverse(node -> rchild);
-}
-
 void inOrderTraverse(BiTree* node)
 {
     if (node == NULL)
@@ -58,14 +40,19 @@ void inOrderTraverse(BiTree* node)
     inOrderTraverse(node -> rchild);
 }
 
-void postOrderTraverse(BiTree* node)
+// 有了遍历的思想, 递归这几行就很好理解了
+// 我当时也是绞尽脑汁, 一直在想怎么把左右子树的指针交换
+// 我没转过来的弯是, 交换了这个指针, 他的孩子也变化了
+// 管他呢, 都是对称的, 无脑递归就行了
+BiTree* invertTree(BiTree* root)
 {
-    if (node == NULL)
-        return;
+    if (root == NULL)
+        return NULL;
     
-    postOrderTraverse(node -> lchild);
-    postOrderTraverse(node -> rchild);
-    printf(" %d", node -> index);
+    BiTree* temp = root -> lchild;
+    root -> lchild = invertTree(root -> rchild);
+    root -> rchild = invertTree(temp);
+    return root;
 }
 
 int main()
@@ -73,7 +60,6 @@ int main()
     int n;
     scanf("%d", &n);
     
-    // You see, I love to use calloc.
     int* nodes = (int*) calloc(n, sizeof(int));
     for (int i = 0; i < n; i++)
     {
@@ -83,20 +69,12 @@ int main()
         nodes[i] = input[0] == '#' ? -1 : atoi(input);
     }
     
-    BiTree* root = createTree(nodes, 0, n);
+    BiTree* root = invertTree(createTree(nodes, 0, n));
 
-    printf("preOrderTraverse is:");
-    preOrderTraverse(root);
-    printf("\n");
-
-    printf("inOrderTraverse is:");
+    printf("inOrderTraverse of invert trees is:");
     inOrderTraverse(root);
     printf("\n");
 
-    printf("postOrderTraverse is:");
-    postOrderTraverse(root);
-
-    // The programmer who completes a program without releasing memory is not a true programmer.
     free(nodes);
     free(root);
 
