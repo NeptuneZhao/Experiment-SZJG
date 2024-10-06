@@ -121,7 +121,7 @@ system("pause");
 
 > 言归正传, 这道题就是判断谁是左叶, 就像我在 2001 说的那样, 在二叉树结构体加一个 parent
 > 
-> ***(IMPORTANT!)*或者, 在传参时, 加一个 parent 参数**
+> **_(IMPORTANT!)_或者, 在传参时, 加一个 parent 参数**
 > 
 > ```c
 > typedef struct BinaryTreeNode { } BiTree;
