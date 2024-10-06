@@ -39,16 +39,21 @@ BiTree* createTree(int* nodes, int index, int size)
     return root;
 }
 
+// 前序遍历经验: plr (print, left, right)
+// 先打印本节点, 再遍历左子树(再打印左子树节点, 再遍历左子树...)
+// 最后遍历右子树(再打印右子树节点, 再遍历左子树...)
+// 前、中、后序遍历的区别在于打印的位置
 void preOrderTraverse(BiTree* node)
 {
     if (node == NULL)
         return;
-    
     printf(" %d", node -> index);
     preOrderTraverse(node -> lchild);
     preOrderTraverse(node -> rchild);
 }
 
+// 中序遍历经验: lpr (left, print, right)
+// 可以将中序遍历看成树的从左向右
 void inOrderTraverse(BiTree* node)
 {
     if (node == NULL)
@@ -59,6 +64,7 @@ void inOrderTraverse(BiTree* node)
     inOrderTraverse(node -> rchild);
 }
 
+// 后序遍历经验: lrp (left, right, print)
 void postOrderTraverse(BiTree* node)
 {
     if (node == NULL)

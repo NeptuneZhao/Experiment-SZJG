@@ -25,3 +25,19 @@ system("pause");
 带来的 OJ 验证开销, 另一方面便于 [Github](https://github.com/NeptuneZhao/Experiment-SZJG) 代码的维护.
 
 请在验收时使用 IDE 的调试控制台, 以免造成打开程序没有看到结果, 程序就退出了的后果.
+
+#### 总结经验...
+
+1. 1001题
+> 就是个啥必题, 不用管
+> 啥必才会这样写
+2. 1002题
+> 栈的思想还是挺不错的, 实现起来也挺有意思
+> 不过就是太烦人了, 但只需要记住压栈和出栈就好了
+> Stack is a LIFO structure.
+3. 1003题
+> 最看不上老师的一集
+> 队列本来是一个独立的结构, 非得用栈来表示?
+> 谁家好人嘚嗖地, 刚学完点东西就兴高采烈装 B 呗
+> Queue is a FIFO structure.
+> It can be easily demonstrated as a node.
