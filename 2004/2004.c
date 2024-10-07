@@ -34,6 +34,7 @@ BiTree* createTree(int* nodes, int index, int size)
     return root;
 }
 
+// 太神秘啦!
 int deepFS(BiTree *node, int end, char *path, int path_len)
 {
     // Nodes is NULL, return 0
@@ -57,6 +58,7 @@ int deepFS(BiTree *node, int end, char *path, int path_len)
     return 0;
 }
 
+// 太神秘啦!
 void findPath(BiTree *root, int start, int end)
 {
     BiTree *stack[__DEEP_LENGTH__], *cur = root;

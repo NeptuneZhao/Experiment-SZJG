@@ -14,19 +14,23 @@ title: 3001 计算图节点的度以及聚类系数
 
 输入：
 
-> 7        // 节点数
-> 8        // 节点相邻边数
-> 0 6 1    // 节点0到节点6有一条长度为1的边
-> 1 6 2
-> 1 2 3
-> 2 3 4
-> 3 4 5
-> 4 6 6
-> 4 5 7
-> 1 3 8
+```
+7        // 节点数
+8        // 节点相邻边数
+0 6 1    // 节点0到节点6有一条长度为1的边
+1 6 2
+1 2 3
+2 3 4
+3 4 5
+4 6 6
+4 5 7
+1 3 8
+```
 
 输出：
 
-> degree distribution:
-> node0:1, node1:3, node2:2, node3:3, node4:3, node5:1, node6:3,
-> clustering coefficient:0.238095
+```
+degree distribution:
+node0:1, node1:3, node2:2, node3:3, node4:3, node5:1, node6:3,
+clustering coefficient:0.238095
+```
