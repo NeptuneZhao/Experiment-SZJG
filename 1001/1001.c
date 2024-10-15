@@ -14,25 +14,25 @@ typedef struct node
 
 // 创建交叉列表
 // All right
-void create(list *a, list *b, int _before1, int _before2){
+void create(list *a, list *b, int _before1, int _before2)
+{
     // a 和 b 后面若干结点值相同
     // _before1 为跳过的 a 中的个数, 从第 _before1 + 1 个结点开始相交
     // _before2 为跳过的 b 中的个数, 从第 _before2 + 1 个结点开始相交
     // 相交方法是将 b 中的前一结点指向 a 中的首个相交结点
-    list *p, *q;
 
     while (_before1--)
         a = a -> next;
     while (--_before2)
         b = b -> next;
     
-    p = b -> next;
+    list* p = b -> next;
     b -> next = a;
     
     // 销毁野指针结点
     while (p)
     {
-        q = p -> next;
+        list* q = p -> next;
         free(p);
         p = q;
     }
@@ -66,8 +66,10 @@ void destroy(list *a, list *b, list *_cross)
 
 // 打印单个结点
 // All right
-void print_one(list *node){
+void print_one(list *node)
+{
     printf("{ID:%s, Grade:%d}", node -> id, node -> grade);
+
     if (node -> next != NULL)
         printf("->");
     else
@@ -92,10 +94,11 @@ void print_all(list *head)
 // node.grade = grade;
 // node.next = NULL;
 // All right
-list* create_one(char *id, int grade)
+list* create_one(const char *id, const int grade)
 {
-    // malloc 的时候记得为转化为结构体指针
-    list *node = (list*)malloc(sizeof(list));
+    // CLion says the conversion is redundant.
+    // list *node = (list*) malloc(sizeof(list));
+    list *node = malloc(sizeof(list));
     strcpy(node -> id, id);
     node -> grade = grade;
     node -> next = NULL;
@@ -117,7 +120,7 @@ list* add_one(list *head, list *node)
 
     // p 是上一个 node
     // 四次错误的根源: 忘加等号了...
-    while (p && (p -> grade >= node -> grade))
+    while (p && p -> grade >= node -> grade)
     {
         q = p;
         p = p -> next;
@@ -141,10 +144,10 @@ list* add_one(list *head, list *node)
 // All right
 list* reverse_one(list *head)
 {
-    list *p = head, *q = NULL, *r;
+    list *p = head, *q = NULL;
     while (p)
     {
-        r = p -> next;
+        list* r = p -> next;
         p -> next = q;
         q = p;
         p = r;
@@ -154,11 +157,14 @@ list* reverse_one(list *head)
 
 // 找到相交的第一个结点
 // All right
-list* findCrossBeginNode(list *class1, list *class2) {
+list* findCrossBeginNode(list *class1, list *class2)
+{
     // class1 和 class2 在后一部分完全重合 (结点的内存地址相同)
     // 请找出并返回开始相交的第一个结点
     // 请不 (bi) 要 (xu) 简单地通过结点结构体的成员来判断
-    list *p = class1, *q = class2;
+    list *p = class1;
+    const list *q = class2;
+
     while (p != q)
     {
         p = p -> next;

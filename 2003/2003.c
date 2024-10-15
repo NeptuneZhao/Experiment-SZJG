@@ -14,27 +14,29 @@
 typedef struct BinaryTreeNode
 {
     int index;
-    struct BinaryTreeNode *lchild, *rchild;
+    struct BinaryTreeNode *left, *right;
 } BiTree;
 
-BiTree* createNode(int index)
+BiTree* createNode(const int index)
 {
-    BiTree* newNode = (BiTree*) malloc(sizeof(BiTree));
+    BiTree* newNode = malloc(sizeof(BiTree));
 
     newNode -> index = index;
-    newNode -> lchild = newNode -> rchild = NULL;
+    newNode -> left = newNode -> right = NULL;
     return newNode;
 }
 
-BiTree* createTree(int* nodes, int index, int size)
+BiTree* createTree(int* nodes, const int index, const int size) // NOLINT(*-no-recursion)
 {
+    if (nodes == NULL)
+        return NULL;
     if (index >= size || nodes[index] == -1)
         return NULL;
     
     BiTree* root = createNode(nodes[index]);
 
-    root -> lchild = createTree(nodes, 2 * index + 1, size);
-    root -> rchild = createTree(nodes, 2 * index + 2, size);
+    root -> left = createTree(nodes, 2 * index + 1, size);
+    root -> right = createTree(nodes, 2 * index + 2, size);
     return root;
 }
 
@@ -45,15 +47,15 @@ int GlobalSummary = 0;
 // HalfCooler 锐评 C 语言程序员
 // 能死就赶紧死吧, Rust 已经傲视群雄了
 
-int IsLeftLeave(BiTree* node, BiTree* parent)
+int IsLeftLeave(const BiTree* node, const BiTree* parent)
 {
     if (node == NULL)
         return 0;
     // Is Leave
-    else if (node -> lchild == NULL && node -> rchild == NULL)
+    else if (node -> left == NULL && node -> right == NULL)
     {
         // Is Left Child
-        if (parent != NULL && parent -> lchild == node)
+        if (parent != NULL && parent -> left == node)
             return node -> index;
     }
     return 0;
@@ -63,10 +65,10 @@ int IsLeftLeave(BiTree* node, BiTree* parent)
     //     if (node == NULL)
     //     return 0;
     //     // Is Leave
-    //     else if (node -> lchild == NULL && node -> rchild == NULL)
+    //     else if (node -> left == NULL && node -> right == NULL)
     //     {
     //         // Is Left Child
-    //         if (parent != NULL && parent -> lchild == node)
+    //         if (parent != NULL && parent -> left == node)
     // Here:
     //             return node -> index;
     //     }
@@ -78,14 +80,14 @@ int IsLeftLeave(BiTree* node, BiTree* parent)
 }
 
 // 随便找一个遍历就好了
-void preOrderTraverse(BiTree* node, BiTree* parent)
+void preOrderTraverse(const BiTree* node, const BiTree* parent) // NOLINT(*-no-recursion)
 {
     if (node == NULL)
         return;
     GlobalSummary += IsLeftLeave(node, parent);
 
-    preOrderTraverse(node -> lchild, node);
-    preOrderTraverse(node -> rchild, node);
+    preOrderTraverse(node -> left, node);
+    preOrderTraverse(node -> right, node);
 }
 
 int main()

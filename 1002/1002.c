@@ -10,7 +10,7 @@
 #define POP 1
 #define GET_TOP 2
 #define STACK_EMPTY 3
-#define EXIT -1
+#define EXIT (-1)
 
 typedef int DataType;
 
@@ -22,10 +22,12 @@ typedef struct stack
 
 /**
  * 初始化一个栈
- * @param S
+ * @param s
  */
 void InitStack(Stack *s)
 {
+    if (s == NULL)
+        return;
     s -> top = -1;
 }
 
@@ -35,9 +37,11 @@ void InitStack(Stack *s)
  * @param e 操作数
  * @return 成功返回1，否则返回0
  */
-int Push(Stack *s, DataType e)
+int Push(Stack *s, const DataType e)
 {
-    if(s -> top == MaxSize - 1)
+    if (s == NULL)
+        return 0;
+    if (s -> top == MaxSize - 1)
         return 0;
     s -> top++;
     s -> data[s -> top] = e;
@@ -52,6 +56,8 @@ int Push(Stack *s, DataType e)
  */
 int Pop(Stack *S, DataType *e)
 {
+    if (S == NULL)
+        return 0;
     if(S -> top == -1)
         return 0;
     *e = S -> data[S -> top];
@@ -65,7 +71,7 @@ int Pop(Stack *S, DataType *e)
  * @param e 接受栈顶元素
  * @return 成功返回1，否则返回0
  */
-int GetTop(Stack S, DataType *e)
+int GetTop(const Stack S, DataType *e)
 {
     if(S.top == -1)
         return 0;
@@ -78,7 +84,7 @@ int GetTop(Stack S, DataType *e)
  * @param S
  * @return 为空返回1，否则返回0
  */
-int StackEmpty(Stack S)
+int StackEmpty(const Stack S)
 {
     return S.top == -1;
 }
@@ -88,7 +94,7 @@ int StackEmpty(Stack S)
  * @param S 操作栈
  * @param seq 栈中元素的一个拷贝
  */
-void StackToArray(Stack S, DataType *seq)
+void StackToArray(const Stack S, DataType *seq)
 {
     for (int i = 0; i <= S.top; i++)
         // 自栈顶至栈底
@@ -100,17 +106,19 @@ void StackToArray(Stack S, DataType *seq)
  * @param S 操作栈
  * @return 返回栈的长度
  */
-int StackLength(Stack S)
+int StackLength(const Stack S)
 {
     return S.top + 1;
 }
 
-void outputStack(Stack *S)
+void outputStack(const Stack *S)
 {
-    int seq[MaxSize], i;
+    if (S == NULL)
+        return;
+    int seq[MaxSize];
     StackToArray(*S, seq);
     printf("Stack: ");
-    for (i = 0; i < StackLength(*S); i++)
+    for (int i = 0; i < StackLength(*S); i++)
     {
         printf("%d", seq[i]);
         if(i < StackLength(*S) - 1)
@@ -119,9 +127,9 @@ void outputStack(Stack *S)
     printf("\n");
 }
 
-int main(int argc, char **argv)
+int main(void)
 {
-    Stack *S = (Stack*)malloc(sizeof(Stack));
+    Stack *S = malloc(sizeof(Stack));
     InitStack(S);
     int mode, num, e, status;
     while (scanf("%d", &mode))
@@ -137,7 +145,6 @@ int main(int argc, char **argv)
                 {
                     num--;
                     scanf("%d", &e);
-                    status = Push(S, e);
                 }
                 outputStack(S);
                 break;

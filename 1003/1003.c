@@ -24,12 +24,15 @@ typedef struct queue
 
 void InitQueue(Queue *queue)
 {
+    if (queue == NULL)
+        return;
     queue -> _front = queue -> _rear = 0;
-    return;
 }
 
-void PrintQueue(Queue *queue)
+void PrintQueue(const Queue *queue)
 {
+    if (queue == NULL)
+        return;
     int i = queue -> _front;
     printf("Queue: ");
     while (i != queue -> _rear)
@@ -40,40 +43,44 @@ void PrintQueue(Queue *queue)
         i = (i + 1) % MaxSize;
     }
     printf("\n");
-    return;
 }
 
-// Opreator 4
+// Operator 4
 // 需要在 main 中重写
 void Enqueue(Queue *queue, ElementType element)
 {
+    if (queue == NULL)
+        return;
     if ((queue -> _rear + 1) % MaxSize == queue -> _front)
         return;
     queue -> _data[queue -> _rear] = element;
     queue -> _rear = (queue -> _rear + 1) % MaxSize;
-    return;
 }
 
-// Opreator 5
+// Operator 5
 // 需要在 main 中重写
 ElementType Dequeue(Queue *queue)
 {
-    if ((queue -> _front) == (queue -> _rear))
+    if (queue == NULL)
+        return 0;
+    if (queue -> _front == queue -> _rear)
     {
         printf("DeQueue failed\n");
-        // NMLGB, 经典的人类错误
+        // LMAO, 经典的人类错误
         // 我 TM 又忘了加大括号了
         return 2147483647;
     }
-    ElementType temp = queue -> _data[queue -> _front];
+    const ElementType temp = queue -> _data[queue -> _front];
     queue -> _front = (queue -> _front + 1) % MaxSize;
     return temp;
 }
 
-// Opreator 6
+// Operator 6
 // 获取队列头元素
-void GetHead(Queue *queue)
+void GetHead(const Queue *queue)
 {
+    if (queue == NULL)
+        return;
     if (queue -> _front == queue -> _rear)
     {
         printf("GetHead failed\n");
@@ -81,13 +88,14 @@ void GetHead(Queue *queue)
     }
     printf("GetHead: %d\n", queue -> _data[queue -> _front]);
     PrintQueue(queue);
-    return;
 }
 
-// Opreator 7
+// Operator 7
 // 判断是否为空
-void IsEmpty(Queue *queue)
+void IsEmpty(const Queue *queue)
 {
+    if (queue == NULL)
+        return;
     if (queue -> _front == queue -> _rear)
         printf("The Queue is Empty\n");
     else
@@ -95,28 +103,29 @@ void IsEmpty(Queue *queue)
         printf("The Queue is not Empty\n");
         PrintQueue(queue);
     }
-    return;
 }
 
 void RefreshStdin()
 {
-    char c;
+    int c;
     while ( (c = getchar()) != '\n' && c != EOF );
 }
 
 int main()
 {
-    Queue *queue = (Queue*)malloc(sizeof(Queue));
+    Queue *queue = malloc(sizeof(Queue));
     InitQueue(queue);
 
     int mode, temp, num, step;
 
     while (scanf("%d", &mode))
     {
-        if (mode == -1)
-            return 0;
+
         switch (mode)
         {
+            case -1:
+                free(queue);
+                return -1;
             case 4:
                 // Enqueue
                 scanf("%d", &num);

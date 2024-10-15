@@ -7,35 +7,37 @@
 // 老师没教过你初始化不能用变量吗? 为什么不用 malloc?
 // Github Copilot: 你这个代码写的什么玩意, 你这个代码写的什么玩意
 
-#define OJ_You_Make_Me_Feel_Amused So_HalfCooler_Rewrited_BinaryTree
+#define OJ_You_Make_Me_Feel_Amused_So_HalfCooler_Rewrote_BinaryTree
 #define PASS "passed"
 
 typedef struct BinaryTreeNode
 {
     int index;
-    struct BinaryTreeNode *lchild, *rchild;
+    struct BinaryTreeNode *left, *right;
 } BiTree;
 
-BiTree* createNode(int index)
+BiTree* createNode(const int index)
 {
     // I'm used to place a space between type and alloc.
     // I love to use calloc instead of malloc.
-    BiTree* newNode = (BiTree*) malloc(sizeof(BiTree));
+    BiTree* newNode = malloc(sizeof(BiTree));
 
     newNode -> index = index;
-    newNode -> lchild = newNode -> rchild = NULL;
+    newNode -> left = newNode -> right = NULL;
     return newNode;
 }
 
-BiTree* createTree(int* nodes, int index, int size)
+BiTree* createTree(int* nodes, const int index, const int size) // NOLINT(*-no-recursion)
 {
+    if (nodes == NULL)
+        return NULL;
     if (index >= size || nodes[index] == -1)
         return NULL;
     
     BiTree* root = createNode(nodes[index]);
 
-    root -> lchild = createTree(nodes, 2 * index + 1, size);
-    root -> rchild = createTree(nodes, 2 * index + 2, size);
+    root -> left = createTree(nodes, 2 * index + 1, size);
+    root -> right = createTree(nodes, 2 * index + 2, size);
     return root;
 }
 
@@ -43,35 +45,35 @@ BiTree* createTree(int* nodes, int index, int size)
 // 先打印本节点, 再遍历左子树(再打印左子树节点, 再遍历左子树...)
 // 最后遍历右子树(再打印右子树节点, 再遍历左子树...)
 // 前、中、后序遍历的区别在于打印的位置
-void preOrderTraverse(BiTree* node)
+void preOrderTraverse(const BiTree* node) // NOLINT(*-no-recursion)
 {
     if (node == NULL)
         return;
     printf(" %d", node -> index);
-    preOrderTraverse(node -> lchild);
-    preOrderTraverse(node -> rchild);
+    preOrderTraverse(node -> left);
+    preOrderTraverse(node -> right);
 }
 
 // 中序遍历经验: lpr (left, print, right)
 // 可以将中序遍历看成树的从左向右
-void inOrderTraverse(BiTree* node)
+void inOrderTraverse(const BiTree* node) // NOLINT(*-no-recursion)
 {
     if (node == NULL)
         return;
     
-    inOrderTraverse(node -> lchild);
+    inOrderTraverse(node -> left);
     printf(" %d", node -> index);
-    inOrderTraverse(node -> rchild);
+    inOrderTraverse(node -> right);
 }
 
 // 后序遍历经验: lrp (left, right, print)
-void postOrderTraverse(BiTree* node)
+void postOrderTraverse(const BiTree* node) // NOLINT(*-no-recursion)
 {
     if (node == NULL)
         return;
     
-    postOrderTraverse(node -> lchild);
-    postOrderTraverse(node -> rchild);
+    postOrderTraverse(node -> left);
+    postOrderTraverse(node -> right);
     printf(" %d", node -> index);
 }
 
@@ -81,7 +83,7 @@ int main()
     scanf("%d", &n);
     
     // You see, I love to use calloc.
-    int* nodes = (int*) calloc(n, sizeof(int));
+    int* nodes = calloc(n, sizeof(int));
     for (int i = 0; i < n; i++)
     {
         char input[3];
