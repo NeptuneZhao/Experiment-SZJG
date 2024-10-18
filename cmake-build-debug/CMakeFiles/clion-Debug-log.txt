@@ -1,0 +1,10 @@
+"C:\Program Files\JetBrains\CLion 243.19420.28\bin\cmake\win\x64\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug "-DCMAKE_MAKE_PROGRAM=C:/Program Files/JetBrains/CLion 243.19420.28/bin/ninja/win/x64/ninja.exe" -G Ninja -S D:\Files\Codes\Experiment-SZJG -B D:\Files\Codes\Experiment-SZJG\cmake-build-debug
+-- The C compiler identification is GNU 13.2.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: D:/Files/Paths/mingw64/bin/gcc.exe - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Configuring done (0.8s)
+-- Generating done (0.0s)
+-- Build files have been written to: D:/Files/Codes/Experiment-SZJG/cmake-build-debug
