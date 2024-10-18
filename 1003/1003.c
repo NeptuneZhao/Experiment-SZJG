@@ -111,7 +111,7 @@ void RefreshStdin()
     while ( (c = getchar()) != '\n' && c != EOF );
 }
 
-int main()
+int main_()
 {
     Queue *queue = malloc(sizeof(Queue));
     InitQueue(queue);

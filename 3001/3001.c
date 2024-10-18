@@ -94,7 +94,7 @@ double clusteringCoefficient(Graph g)
     return (double)triangle_num / triple_num;
 }
 
-int main()
+int main_()
 {
     int node_num, edge_num;
     scanf("%d %d", &node_num, &edge_num);

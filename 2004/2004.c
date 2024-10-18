@@ -95,7 +95,7 @@ void findPath(BiTree *root, int start, int end)
         printf("Too Far!!!\n");
 }
 
-int main()
+int main_()
 {
     int n, start, end;
     scanf("%d", &n);

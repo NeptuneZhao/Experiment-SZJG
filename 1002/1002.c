@@ -127,7 +127,7 @@ void outputStack(const Stack *S)
     printf("\n");
 }
 
-int main(void)
+int main_(void)
 {
     Stack *S = malloc(sizeof(Stack));
     InitStack(S);

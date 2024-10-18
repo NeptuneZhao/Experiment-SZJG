@@ -90,7 +90,7 @@ void preOrderTraverse(const BiTree* node, const BiTree* parent) // NOLINT(*-no-r
     preOrderTraverse(node -> right, node);
 }
 
-int main()
+int main_()
 {
     int n;
     scanf("%d", &n);

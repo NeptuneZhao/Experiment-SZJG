@@ -177,7 +177,7 @@ list* findCrossBeginNode(list *class1, list *class2)
     return p;
 }
 
-int main()
+int main_()
 {
     list *class1 = NULL, *class2 = NULL, *node;
     int num1, num2, i, grade, _before1, _before2;

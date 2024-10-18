@@ -77,7 +77,7 @@ void postOrderTraverse(const BiTree* node) // NOLINT(*-no-recursion)
     printf(" %d", node -> index);
 }
 
-int main()
+int main_()
 {
     int n;
     scanf("%d", &n);

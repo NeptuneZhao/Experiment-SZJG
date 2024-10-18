@@ -58,7 +58,7 @@ BiTree* invertTree(BiTree* root) // NOLINT(*-no-recursion)
     return root;
 }
 
-int main()
+int main_()
 {
     int n;
     scanf("%d", &n);
