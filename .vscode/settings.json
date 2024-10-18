@@ -1,9 +1,0 @@
-{
-    "files.associations": {
-        "stdlib.h": "c",
-        "queue.h": "c",
-        "stdio.h": "c",
-        "string.h": "c",
-        "psapi.h": "c"
-    }
-}
