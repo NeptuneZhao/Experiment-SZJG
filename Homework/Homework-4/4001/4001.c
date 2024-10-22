@@ -39,11 +39,11 @@ int main(void)
 
 	// I/O parts, do not modify
 	// 3.14% = 0.0314
-	scanf("%d", &N);
+	scanf("%d", &N); // NOLINT(cert-err34-c)
 
 	for (int i = 0; i < N; i++)
 	{
-		scanf("%d%d%d", &X, &Y, &T);
+		scanf("%d%d%d", &X, &Y, &T); // NOLINT(cert-err34-c)
 		const double rate = searchProperRate(X, Y, T);
 		printf("%.2f%%\n", 100 * rate);
 	}

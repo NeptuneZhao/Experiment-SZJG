@@ -80,7 +80,7 @@ void postOrderTraverse(const BiTree* node) // NOLINT(*-no-recursion)
 int main()
 {
     int n;
-    scanf("%d", &n);
+    scanf("%d", &n); // NOLINT(cert-err34-c)
     
     // You see, I love to use calloc.
     int* nodes = calloc(n, sizeof(int));
@@ -89,7 +89,7 @@ int main()
         char input[3];
         scanf("%s", input);
 
-        nodes[i] = input[0] == '#' ? -1 : (int)strtol(input, NULL, 10);
+        nodes[i] = input[0] == '#' ? -1 : strtol(input, NULL, 10);
     }
     
     BiTree* root = createTree(nodes, 0, n);

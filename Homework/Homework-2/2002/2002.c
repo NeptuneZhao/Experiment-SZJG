@@ -61,7 +61,7 @@ BiTree* invertTree(BiTree* root) // NOLINT(*-no-recursion)
 int main_()
 {
     int n;
-    scanf("%d", &n);
+    scanf("%d", &n); // NOLINT(cert-err34-c)
     
     int* nodes = (int*) calloc(n, sizeof(int));
     for (int i = 0; i < n; i++)
@@ -69,7 +69,7 @@ int main_()
         char input[3];
         scanf("%s", input);
 
-        nodes[i] = input[0] == '#' ? -1 : atoi(input);
+        nodes[i] = input[0] == '#' ? -1 : strtol(input, NULL, 10);
     }
     
     BiTree* root = invertTree(createTree(nodes, 0, n));

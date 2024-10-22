@@ -118,7 +118,7 @@ int main()
 
     int mode, temp, num, step;
 
-    while (scanf("%d", &mode))
+    while (scanf("%d", &mode)) // NOLINT(cert-err34-c)
     {
 
         switch (mode)
@@ -128,10 +128,10 @@ int main()
                 return -1;
             case 4:
                 // Enqueue
-                scanf("%d", &num);
+                scanf("%d", &num); // NOLINT(cert-err34-c)
                 for (int i = 0; i < num; i++)
                 {
-                    scanf("%d", &temp);
+                    scanf("%d", &temp); // NOLINT(cert-err34-c)
                     Enqueue(queue, temp);
                 }
                 PrintQueue(queue);
@@ -139,7 +139,7 @@ int main()
                 break;
             case 5:
                 // Dequeue
-                scanf("%d", &step);
+                scanf("%d", &step); // NOLINT(cert-err34-c)
                 for (int i = 0; i < step; i++)
                 {
                     temp = Dequeue(queue);

@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 #define HalfCooler_Creation 1
 
@@ -9,7 +8,7 @@ typedef struct number
     int origin, mapped;
 } Number;
 
-int get_mapped_value(const int num, int *mapping)
+int get_mapped_value(const int num, const int *mapping)
 {
     if (mapping == NULL)
         return 0;
@@ -23,17 +22,17 @@ int get_mapped_value(const int num, int *mapping)
     
     // Convert string-number according to the mapping rule
     while (str[i] != '\0')
-        mapped_str[i++] = mapping[str[i] - '0'] + '0';
+        mapped_str[i++] = (char)(mapping[str[i] - '0'] + (int)'0');
 
     mapped_str[i] = '\0';
-    return (int)strtol(mapped_str, NULL, 10);
+    return strtol(mapped_str, NULL, 10);
 }
 
 // From LeetCode Ti Jie
 // Name: 【Python3 & Java & C++ & C】【排序】2191. 将杂乱无章的数字排序
 // Author: Duck不必
 // 写得太帅了!
-int get_mapped_value2(int num, int *mapping)
+int get_mapped_value2(int num, const int *mapping)
 {
     if (mapping == NULL)
         return 0;
@@ -53,16 +52,16 @@ int get_mapped_value2(int num, int *mapping)
 }
 
 // 使用一个稳定的排序, 因为题目要求相同的数按照输入顺序输出
-void merge_sort(Number *numbers, int left, int right)
+void merge_sort(Number *numbers, const int left, const int right) //NOLINT(*-no-recursion)
 {
-    if (left >= right)
+    if (left >= right || numbers == NULL)
         return;
-    
-    int mid = (left + right) / 2;
+
+    const int mid = (left + right) / 2;
     merge_sort(numbers, left, mid);
     merge_sort(numbers, mid + 1, right);
 
-    Number *tmp = (Number*) calloc(right - left + 1, sizeof(Number));
+    Number *tmp = calloc(right - left + 1, sizeof(Number));
     int i = left, j = mid + 1, k = 0;
 
     while (i <= mid && j <= right)
@@ -79,27 +78,25 @@ void merge_sort(Number *numbers, int left, int right)
     while (j <= right)
         tmp[k++] = numbers[j++];
     
-    for (int i = 0; i < k; i++)
-        numbers[left + i] = tmp[i];
+    for (int h = 0; h < k; h++)
+        numbers[left + h] = tmp[h];
     
     free(tmp);
 }
 
 // 有 bug, 别用
-int _input_int()
+int input_int_()
 {
-    char buffer[10];
-    long value;
-    
     while (1)
     {
+        char buffer[10];
         if (fgets(buffer, sizeof(buffer), __acrt_iob_func(0)) != NULL)
         {
-            char *endptr;
-            value = strtol(buffer, &endptr, 10);
+            char *end_ptr;
+            const long value = strtol(buffer, &end_ptr, 10);
 
-            if (endptr != buffer && *endptr == '\n' && value >= INT_MIN && value <= INT_MAX)
-                return (int)value;
+            if (*end_ptr == '\n' && value >= INT_MIN && value <= INT_MAX)
+                return value;
         }
     }
 }
@@ -107,16 +104,16 @@ int _input_int()
 int input_int()
 {
     int value;
-    scanf("%d", &value);
+    scanf("%d", &value); // NOLINT(cert-err34-c)
     return value;
 }
 
 int main(void)
 {
     // I remember sometimes (int*) is not necessary
-    int *mapping = (int*) calloc(10, sizeof(int)), n = input_int(), tmp;
-    Number *numbers = (Number*) calloc(n, sizeof(Number));
-    // From hints we can get:
+    int *mapping = calloc(10, sizeof(int)), n = input_int();
+    Number *numbers = calloc(n, sizeof(Number));
+    // From hints, we can get:
     // nums[i]: 1000000000 = 10^9
     // int_max: 2147483647 = 2^31 - 1
     // So we can use int to store the number
@@ -124,7 +121,7 @@ int main(void)
         mapping[i] = input_int();
     for (int i = 0; i < n; i++)
     {
-        tmp = input_int();
+        const int tmp = input_int();
         numbers[i].origin = tmp;
         numbers[i].mapped = get_mapped_value(tmp, mapping);
     }

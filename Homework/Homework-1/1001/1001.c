@@ -184,7 +184,7 @@ int main()
 	char id[11];
 
 	// 读取两个班级的人数
-	scanf("%d%d", &num1, &num2);
+	scanf("%d%d", &num1, &num2); // NOLINT(cert-err34-c)
 
 	// ???
 	class1 = class2 = NULL;
@@ -192,7 +192,7 @@ int main()
 	// 读取班级1的成绩
 	for(i = 0; i < num1; i++)
 	{
-		scanf("%s%d", id, &grade);
+		scanf("%s%d", id, &grade); // NOLINT(cert-err34-c)
 		node = create_one(id, grade);
 		class1 = add_one(class1, node);
 	}
@@ -200,13 +200,13 @@ int main()
 	// 读取班级2的成绩
 	for(i = 0; i < num2; i++)
 	{
-		scanf("%s%d", id, &grade);
+		scanf("%s%d", id, &grade); // NOLINT(cert-err34-c)
 		node = create_one(id, grade);
 		class2 = add_one(class2, node);
 	}
 
 	// 读取链表交叉之前的结点个数
-	scanf("%d%d", &_before1, &_before2);
+	scanf("%d%d", &_before1, &_before2); // NOLINT(cert-err34-c)
 
 	// 输出1 存储列表结果
 	class1 = reverse_one(class1);

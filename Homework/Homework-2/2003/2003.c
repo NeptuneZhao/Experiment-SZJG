@@ -97,15 +97,15 @@ void preOrderTraverse(const BiTree* node, const BiTree* parent) // NOLINT(*-no-r
 int main_()
 {
     int n;
-    scanf("%d", &n);
+    scanf("%d", &n); // NOLINT(cert-err34-c)
     
     int* nodes = (int*) calloc(n, sizeof(int));
     for (int i = 0; i < n; i++)
     {
         char input[3];
-        scanf("%s", input);
+        scanf("%s", input); // NOLINT(cert-err34-c)
 
-        nodes[i] = input[0] == '#' ? -1 : atoi(input);
+        nodes[i] = input[0] == '#' ? -1 : strtol(input, NULL, 10);
     }
     
     BiTree* root = createTree(nodes, 0, n);

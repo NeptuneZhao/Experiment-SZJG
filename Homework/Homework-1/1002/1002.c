@@ -132,7 +132,7 @@ int main(void)
     Stack *S = malloc(sizeof(Stack));
     InitStack(S);
     int mode, num, e, status;
-    while (scanf("%d", &mode))
+    while (scanf("%d", &mode)) // NOLINT(cert-err34-c)
     {
         if (mode == EXIT)
             break;
@@ -140,17 +140,17 @@ int main(void)
         {
             case PUSH:
                 num = 0;
-                scanf("%d", &num);
+                scanf("%d", &num); // NOLINT(cert-err34-c)
                 while (num > 0)
                 {
                     num--;
-                    scanf("%d", &e);
+                    scanf("%d", &e); // NOLINT(cert-err34-c)
                 }
                 outputStack(S);
                 break;
             case POP:
                 num = 0;
-                scanf("%d", &num);
+                scanf("%d", &num); // NOLINT(cert-err34-c)
                 while (num > 0)
                 {
                     num--;
