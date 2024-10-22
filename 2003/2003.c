@@ -55,6 +55,9 @@ int IsLeftLeave(const BiTree* node, const BiTree* parent)
     else if (node -> left == NULL && node -> right == NULL)
     {
         // Is Left Child
+        // 感谢 [Mukio](https://github.com/MukioXun) 的问题提出
+        // 询问 parent != NULL 是否多余?
+        
         if (parent != NULL && parent -> left == node)
             return node -> index;
     }

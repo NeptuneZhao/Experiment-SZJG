@@ -1,0 +1,3 @@
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E rm -f CMakeFiles\Experiment_SZJG.dir/objects.a
+D:\Files\Paths\mingw64\bin\ar.exe qc CMakeFiles\Experiment_SZJG.dir/objects.a @CMakeFiles\Experiment_SZJG.dir\objects1.rsp
+D:\Files\Paths\mingw64\bin\gcc.exe -g -Wl,--whole-archive CMakeFiles\Experiment_SZJG.dir/objects.a -Wl,--no-whole-archive -o Experiment_SZJG.exe -Wl,--out-implib,libExperiment_SZJG.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\Experiment_SZJG.dir\linkLibs.rsp
