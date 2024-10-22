@@ -57,6 +57,7 @@ int IsLeftLeave(const BiTree* node, const BiTree* parent)
         // Is Left Child
         // 感谢 [Mukio](https://github.com/MukioXun) 的问题提出
         // 询问 parent != NULL 是否多余?
+        // 欢迎添加 comments, 如果你觉得这里更好, 可以直接 PR
         
         if (parent != NULL && parent -> left == node)
             return node -> index;
