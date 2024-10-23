@@ -84,23 +84,6 @@ void merge_sort(Number *numbers, const int left, const int right) //NOLINT(*-no-
     free(tmp);
 }
 
-// 有 bug, 别用
-int input_int_()
-{
-    while (1)
-    {
-        char buffer[10];
-        if (fgets(buffer, sizeof(buffer), stdin) != NULL)
-        {
-            char *end_ptr;
-            const long value = strtol(buffer, &end_ptr, 10);
-
-            if (*end_ptr == '\n' && value >= -2147483648 && value <= 2147483647)
-                return value;
-        }
-    }
-}
-
 int input_int()
 {
     int value;
