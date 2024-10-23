@@ -90,7 +90,7 @@ int input_int_()
     while (1)
     {
         char buffer[10];
-        if (fgets(buffer, sizeof(buffer), __acrt_iob_func(0)) != NULL)
+        if (fgets(buffer, sizeof(buffer), stdin) != NULL)
         {
             char *end_ptr;
             const long value = strtol(buffer, &end_ptr, 10);
@@ -128,10 +128,15 @@ int main(void)
 
     merge_sort(numbers, 0, n - 1);
 
-    // 此处注意机动处理末尾是否有空格
+    // 此处最后没有空格
+    // 别问我咋知道的
     for (int i = 0; i < n; i++)
-        printf("%d ", numbers[i].origin);
-
+    {
+        printf("%d", numbers[i].origin);
+        if (i < n - 1)
+            printf(" ");
+    }
+    
     free(mapping);
     free(numbers);
     return 0;
