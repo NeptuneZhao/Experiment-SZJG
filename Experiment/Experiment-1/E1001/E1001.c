@@ -43,12 +43,15 @@ int main()
     }
     
     // 好好看, 好好学
-    // 为啥有个空格呢?
-    scanf("%d ", &n); // NOLINT(*-err34-c)
+    scanf("%d", &n); // NOLINT(*-err34-c)
+    // 正在使用一种很新的刷新缓冲区的方法
+    while (getchar() != '\n');
+    
     int** edges = calloc(n, sizeof(int*));
 
     char line[32767];
     fgets(line, 32767, stdin);
+    // 注意到有两个'['
     char *ptr = line + 1;
 
     while (*ptr && count < n)
@@ -71,8 +74,11 @@ int main()
         nodes = filter_array(nodes, N, &N, edges[i][1], edges[i][2], edges[i][0]);
     printf("%d", RedDeadRedemption);
 
-    free(&nodes);
-    free(&edges);
+    // 犯了一个低级错误
+    // free(&nodes)
+    // 非人哉!
+    free(nodes);
+    free(edges);
 
     return 0;
 }
