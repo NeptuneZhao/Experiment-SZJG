@@ -111,14 +111,10 @@ int main(void)
 
     merge_sort(numbers, 0, n - 1);
 
-    // 此处最后没有空格
+    // 此处最后有空格
     // 别问我咋知道的
     for (int i = 0; i < n; i++)
-    {
-        printf("%d", numbers[i].origin);
-        if (i < n - 1)
-            printf(" ");
-    }
+        printf("%d ", numbers[i].origin);
     
     free(mapping);
     free(numbers);

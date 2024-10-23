@@ -25,7 +25,7 @@ int* filter_array(const int *array, const int size, int *new_size, const int x, 
     for (int i = 0; i < size; i++)
     {
         if (array[i] >= x && array[i] <= y)
-                RedDeadRedemption += mode ? 0 : 1;
+                RedDeadRedemption += mode;
         else
             new_array[count++] = array[i];
     }

@@ -67,3 +67,15 @@
 - `mapping[i]` 的值互不相同
 - $1 \leq nums.length \leq 3 * 10^4$
 - $0 \leq nums[i] < 10^9$
+
+## 实验报告要求的流程
+
+为 `mapping` `numbers` 分配内存(前提是 `n` 已经读取了) ->
+
+输入 `10` 个 `mapping` 规则 ->
+
+输入 `n` 个 `origin` 并根据规则填充映射值 ->
+
+根据映射值对 `numbers` 这个结构体数组进行归并排序 ->
+
+打印
