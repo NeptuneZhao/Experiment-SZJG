@@ -95,7 +95,7 @@ int input_int_()
             char *end_ptr;
             const long value = strtol(buffer, &end_ptr, 10);
 
-            if (*end_ptr == '\n' && value >= INT_MIN && value <= INT_MAX)
+            if (*end_ptr == '\n' && value >= -2147483648 && value <= 2147483647)
                 return value;
         }
     }
