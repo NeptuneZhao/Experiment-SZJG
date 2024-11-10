@@ -1,4 +1,4 @@
-title: 2001 层次遍历建立二叉树及遍历
+### 2001 层次遍历建立二叉树及遍历
 
 #### 实验内容
 
@@ -36,14 +36,14 @@ postOrderTraverse is: 8 9 4 5 2 10 6 7 3 1
 
 **输入：**
 
-```
+```plain
 15 // 树结点个数
 1 2 3 4 5 6 7 8 9 # # # 10 # # // #表示空
 ```
 
 **输出：**
 
-```
+```plain
 preOrderTraverse is: 1 2 4 8 9 5 3 6 10 7 // 前序遍历 
 inOrderTraverse is: 8 4 9 2 5 1 6 10 3 7 // 中序遍历 
 postOrderTraverse is: 8 9 4 5 2 10 6 7 3 1 // 后序遍历 
@@ -56,3 +56,44 @@ postOrderTraverse is: 8 9 4 5 2 10 6 7 3 1 // 后序遍历
     for(int i = 0; i < strlen(data); i++)
         printf(" %d", %data[i]); // 元素前加空格
 ```
+
+#### 一个非常棒的例子，但是不对
+
+首先，我必须要对聪明婷小姐致敬。没有她，就没有本想法。
+
+下面简述其创建树的过程。
+
+```c
+TreeNodePtr createTreeWithLevelOrder(int *data, int size)
+{
+    if (size <= 0 || data[0] == -1) return NULL;
+
+    QueuePtr queue = InitQueue();
+    TreeNodePtr root = createTreeNode(data[0], NULL, NULL);
+    EnQueue(queue, root);
+    int i = 1;
+    while (i < size)
+    {
+        TreeNodePtr node = GetHead(queue);
+        DeQueue(queue);
+        if (data[i] != -1)   // 如果当前值不是-1，说明有左孩子
+        {
+            node->left = createTreeNode(data[i], NULL, NULL);
+            EnQueue(queue, node->left);
+        }
+        i++;
+        if (i >= size) break; // 如果已经到达数组末尾，退出循环
+        if (data[i] != -1)   // 如果当前值不是-1，说明有右孩子
+        {
+            node->right = createTreeNode(data[i], NULL, NULL);
+            EnQueue(queue, node->right);
+        }
+        i++;
+    }
+    return root;
+}
+```
+
+小品一下，乍一看不会发现错误。具体错误在下述手记体现。
+
+![我的示例](./sample.png)
