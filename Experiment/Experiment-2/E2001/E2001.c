@@ -58,14 +58,11 @@ int isEmpty(PriorityQueue* pq)
     return pq -> size == 0;
 }
 
-int a, b;
-char maze[100][100];
-int visited[100][100];
-int pathLength = 0;
-char moves[10000];
-int moveIndex = 0;
-int minDistance = 0;
-int distances[100][100];
+int 
+    a, b,
+    pathLength = 0, moveIndex = 0, minDistance = 0,
+    visited[100][100], distances[100][100];
+char maze[100][100], moves[10000];
 
 // 右下左上的 DFS 索引
 int dx[4] = {0, 1, 0, -1};
@@ -134,8 +131,7 @@ void BFS()
     }
 }
 
-int inClosedList[100][100];
-int inOpenList[100][100];
+int inClosedList[100][100], inOpenList[100][100];
 Node* nodeDetails[100][100];
 
 void reconstructPath(Node* current)
@@ -158,6 +154,7 @@ void AStar()
     startNode -> h = abs(keyX - (a - 1)) + abs(keyY - (b - 1));
     startNode -> f = startNode -> g + startNode -> h;
     startNode -> parent = NULL;
+    
     push(&openList, startNode);
     inOpenList[keyX][keyY] = 1;
     nodeDetails[keyX][keyY] = startNode;
@@ -175,13 +172,16 @@ void AStar()
             Node* temp = current;
             Node* path[100 * 100];
             int path_len = 0;
+
             while (temp != NULL)
             {
                 path[path_len++] = temp;
                 temp = temp -> parent;
             }
+
             for (int i = path_len -1; i >=0; i--)
                 printf("(%d,%d)", path[i] -> x, path[i] -> y);
+
             printf("\n");
             return;
         }
@@ -207,6 +207,7 @@ void AStar()
                     successor -> h = hNew;
                     successor -> f = fNew;
                     successor -> parent = current;
+
                     push(&openList, successor);
                     inOpenList[nx][ny] = 1;
                     nodeDetails[nx][ny] = successor;
@@ -217,9 +218,10 @@ void AStar()
     // No path found
 }
 
-int main() {
+int main()
+{
     scanf("%d %d", &a, &b);
-
+    
     // 此处刷新缓冲区, 机动处理换行符
     // 有问题就删
     getchar();

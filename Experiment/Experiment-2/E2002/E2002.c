@@ -8,9 +8,9 @@ int main()
     scanf("%d%d%d%d", &n, &m, &l, &r);
 
     // 带着距离的矩阵
-    for(int i = 1; i <= n; i++)
+    for (int i = 1; i <= n; i++)
     {
-        for(int j = 1; j <= n; j++)
+        for (int j = 1; j <= n; j++)
         {
             if (i == j)
                 dist[i][j] = 0;
@@ -20,7 +20,7 @@ int main()
     }
 
     // 读入边
-    for(int i = 0; i < m; i++)
+    for (int i = 0; i < m; i++)
     {
         int u, v, w;
         scanf("%d%d%d", &u, &v, &w);
@@ -32,11 +32,11 @@ int main()
     }
 
     // Floyd 算法
-    for(int k = 1; k <= n; k++)
+    for (int k = 1; k <= n; k++)
     {
-        for(int u = 1; u <= n; u++)
+        for (int u = 1; u <= n; u++)
         {
-            for(int v = 1; v <= n; v++)
+            for (int v = 1; v <= n; v++)
             {
                 int maxUV = dist[u][v];
                 int maxThroughK = (dist[u][k] > dist[k][v]) ? dist[u][k] : dist[k][v];
@@ -47,9 +47,9 @@ int main()
     }
 
     int count = 0;
-    for(int u = 1; u <= n; u++)
+    for (int u = 1; u <= n; u++)
     {
-        for(int v = u + 1; v <= n; v++)
+        for (int v = u + 1; v <= n; v++)
         {
             if (dist[u][v] >= l && dist[u][v] <= r)
                 count++;
