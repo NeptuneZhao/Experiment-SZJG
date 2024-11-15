@@ -1,267 +1,204 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <math.h>
 
-typedef struct Node
-{
-    int x, y, g, h, f;
+#define MAX_ROW 50
+#define MAX_COL 50
+
+typedef struct {
+    int x, y;
+} Point;
+
+typedef struct Node {
+    Point pt;
+    int g, h, f;
     struct Node* parent;
+    struct Node* next;
 } Node;
 
-typedef struct PQueue
-{
-    Node* heap[100 * 100];
-    int size;
-} PriorityQueue;
-
-void push(PriorityQueue* pq, Node* node)
-{
-    pq -> heap[pq -> size++] = node;
-    int i = pq -> size -1;
-    while (i && pq -> heap[i] -> f < pq -> heap[(i - 1) / 2] -> f)
-    {
-        Node* temp = pq -> heap[i];
-        pq -> heap[i] = pq -> heap[(i - 1) / 2];
-        pq -> heap[(i - 1) / 2] = temp;
-        i = (i - 1) / 2;
-    }
-}
-
-Node* pop(PriorityQueue* pq)
-{
-    Node* popped = pq -> heap[0];
-    pq -> heap[0] = pq -> heap[--pq -> size];
-    int i = 0;
-    while (2 * i + 1 < pq -> size)
-    {
-        int smallest = i;
-        if (pq -> heap[2 * i + 1] -> f < pq -> heap[smallest] -> f)
-            smallest = 2 * i + 1;
-        if (2 * i + 2 < pq -> size && pq -> heap[2 * i + 2] -> f < pq -> heap[smallest] -> f)
-            smallest = 2 * i + 2;
-        if (smallest != i)
-        {
-            Node* temp = pq -> heap[i];
-            pq -> heap[i] = pq -> heap[smallest];
-            pq -> heap[smallest] = temp;
-            i = smallest;
-        }
-        else
-            break;
-    }
-    return popped;
-}
-
-int isEmpty(PriorityQueue* pq)
-{
-    return pq -> size == 0;
-}
-
+char maze[MAX_ROW][MAX_COL];
+int visited[MAX_ROW][MAX_COL];
 int a, b;
-char maze[100][100];
-int visited[100][100];
-int pathLength = 0;
-char moves[10000];
-int moveIndex = 0;
-int minDistance = 0;
-int distances[100][100];
 
-// 右下左上的 DFS 索引
-int dx[4] = {0, 1, 0, -1};
+char path[1000];
+int pathLen = 0;
+int minSteps = -1;
+
+Point start, keyPos, exitPos;
+
+void readMaze() {
+    scanf("%d %d", &a, &b);
+    for (int i = 0; i < a; i++) {
+        scanf("%s", maze[i]);
+        for (int j = 0; j < b; j++) {
+            if (maze[i][j] == '*') {
+                start.x = i;
+                start.y = j;
+            } else if (maze[i][j] == '$') {
+                keyPos.x = i;
+                keyPos.y = j;
+            } else if (maze[i][j] == '#') {
+                exitPos.x = i;
+                exitPos.y = j;
+            }
+        }
+    }
+}
+
+int dx[4] = {0, 1, 0, -1}; // Right, Down, Left, Up
 int dy[4] = {1, 0, -1, 0};
 char dir[4] = {'R', 'D', 'L', 'U'};
-char opp_dir[4] = {'L', 'U', 'R', 'D'};
+char backDir[4] = {'L', 'U', 'R', 'D'};
 
-int startX, startY, keyX, keyY, exitX, exitY;
+int dfsFlag = 0;
 
-void DFS(int x, int y)
-{
-    if (visited[x][y])
+void dfs(int x, int y, int steps) {
+    if (dfsFlag) return;
+    if (x == keyPos.x && y == keyPos.y) {
+        if (minSteps == -1 || steps < minSteps) {
+            minSteps = steps;
+        }
+        dfsFlag = 1;
         return;
+    }
+
     visited[x][y] = 1;
-    if (x == keyX && y == keyY)
-        return;
 
-    for (int i = 0; i < 4; i++)
-    {
+    for (int i = 0; i < 4; i++) {
         int nx = x + dx[i];
         int ny = y + dy[i];
-
-        if (nx >= 0 && nx < a && ny >=0 && ny < b && maze[nx][ny] != '1' && !visited[nx][ny])
-        {
-            moves[moveIndex++] = dir[i];
-            DFS(nx, ny);
-            // 找到了
-            if (visited[keyX][keyY])
-                return;
-            // 回溯
-            moves[moveIndex++] = opp_dir[i];
+        // Check bounds and if cell is walkable and not visited
+        if (nx >= 0 && nx < a && ny >= 0 && ny < b &&
+            maze[nx][ny] != '1' && !visited[nx][ny]) {
+            path[pathLen++] = dir[i];
+            dfs(nx, ny, steps + 1);
+            if (dfsFlag) return;
+            path[pathLen++] = backDir[i];
         }
     }
+
+    visited[x][y] = 0;
 }
 
-void BFS()
-{
-    int queue[100 * 100][2];
-    int front = 0, rear = 0;
-    queue[rear][0] = startX;
-    queue[rear++][1] = startY;
-    distances[startX][startY] = 0;
-    visited[startX][startY] = 1;
+Node* openList = NULL;
+Node* closedList = NULL;
 
-    while (front < rear)
-    {
-        int x = queue[front][0];
-        int y = queue[front++][1];
-        if (x == keyX && y == keyY)
-        {
-            minDistance = distances[x][y];
-            return;
+void addNode(Node** list, Node* node) {
+    node->next = *list;
+    *list = node;
+}
+
+Node* popBestNode() {
+    Node *prev = NULL, *bestPrev = NULL, *cur = openList, *best = NULL;
+    int bestF = -1;
+    while (cur) {
+        int f = cur->f;
+        if (bestF == -1 || f < bestF ||
+            (f == bestF && (cur->pt.x > best->pt.x ||
+            (cur->pt.x == best->pt.x && cur->pt.y > best->pt.y)))) {
+            bestF = f;
+            best = cur;
+            bestPrev = prev;
         }
-        for (int i = 0; i < 4; i++)
-        {
-            int nx = x + dx[i];
-            int ny = y + dy[i];
-            if (nx >= 0 && nx < a && ny >= 0 && ny < b && !visited[nx][ny] && maze[nx][ny] != '1')
-            {
-                visited[nx][ny] = 1;
-                distances[nx][ny] = distances[x][y] + 1;
-                queue[rear][0] = nx;
-                queue[rear++][1] = ny;
-            }
-        }
+        prev = cur;
+        cur = cur->next;
     }
+    if (bestPrev) {
+        bestPrev->next = best->next;
+    } else {
+        openList = best->next;
+    }
+    return best;
 }
 
-int inClosedList[100][100];
-int inOpenList[100][100];
-Node* nodeDetails[100][100];
-
-void reconstructPath(Node* current)
-{
-    if (current == NULL)
-        return;
-    reconstructPath(current -> parent);
-    printf("(%d,%d)", current -> x, current -> y);
+int inList(Node* list, int x, int y) {
+    while (list) {
+        if (list->pt.x == x && list->pt.y == y) return 1;
+        list = list->next;
+    }
+    return 0;
 }
 
-void AStar()
-{
-    PriorityQueue openList;
-    openList.size = 0;
+void printPath(Node* node) {
+    if (node == NULL) return;
+    printPath(node->parent);
+    printf("(%d,%d)", node->pt.x, node->pt.y);
+}
 
-    Node* startNode = malloc(sizeof(Node));
-    startNode -> x = keyX;
-    startNode -> y = keyY;
-    startNode -> g = 0;
-    startNode -> h = abs(keyX - (a - 1)) + abs(keyY - (b - 1));
-    startNode -> f = startNode -> g + startNode -> h;
-    startNode -> parent = NULL;
-    push(&openList, startNode);
-    inOpenList[keyX][keyY] = 1;
-    nodeDetails[keyX][keyY] = startNode;
+void aStar() {
+    Node* startNode = (Node*)malloc(sizeof(Node));
+    startNode->pt = keyPos;
+    startNode->g = 0;
+    startNode->h = abs(keyPos.x - exitPos.x) + abs(keyPos.y - exitPos.y);
+    startNode->f = startNode->g + startNode->h;
+    startNode->parent = NULL;
+    startNode->next = NULL;
+    openList = startNode;
 
-    while (!isEmpty(&openList))
-    {
-        Node* current = pop(&openList);
-        inClosedList[current -> x][current -> y] = 1;
-        printf("(%d,%d)", current -> x, current -> y);
+    while (openList) {
+        Node* current = popBestNode();
+        addNode(&closedList, current);
+        printf("(%d,%d)", current->pt.x, current->pt.y);
 
-        if (current -> x == exitX && current -> y == exitY)
-        {
-            // 路径重构
+        if (current->pt.x == exitPos.x && current->pt.y == exitPos.y) {
+            // Path found
             printf("\n");
-            Node* temp = current;
-            Node* path[100 * 100];
-            int path_len = 0;
-            while (temp != NULL)
-            {
-                path[path_len++] = temp;
-                temp = temp -> parent;
-            }
-            for (int i = path_len -1; i >=0; i--)
-                printf("(%d,%d)", path[i] -> x, path[i] -> y);
+            printPath(current);
             printf("\n");
             return;
         }
 
-        for (int i =0; i < 4; i++)
-        {
-            int
-                nx = current -> x + dx[i],
-                ny = current -> y + dy[i];
-
-            if (nx >= 0 && nx < a && ny >= 0 && ny < b && maze[nx][ny] != '1')
-            {
-                int gNew = current -> g + 1;
-                int hNew = abs(nx - (a - 1)) + abs(ny - (b - 1));
+        for (int i = 0; i < 4; i++) {
+            int nx = current->pt.x + dx[i];
+            int ny = current->pt.y + dy[i];
+            if (nx >= 0 && nx < a && ny >= 0 && ny < b &&
+                maze[nx][ny] != '1' && !inList(closedList, nx, ny)) {
+                int gNew = current->g + 1;
+                int hNew = abs(nx - exitPos.x) + abs(ny - exitPos.y);
                 int fNew = gNew + hNew;
 
-                if (!inClosedList[nx][ny] && (!inOpenList[nx][ny] || fNew < nodeDetails[nx][ny] -> f))
-                {
-                    Node* successor = malloc(sizeof(Node));
-                    successor -> x = nx;
-                    successor -> y = ny;
-                    successor -> g = gNew;
-                    successor -> h = hNew;
-                    successor -> f = fNew;
-                    successor -> parent = current;
-                    push(&openList, successor);
-                    inOpenList[nx][ny] = 1;
-                    nodeDetails[nx][ny] = successor;
+                Node* successor = NULL;
+                Node* temp = openList;
+                while (temp) {
+                    if (temp->pt.x == nx && temp->pt.y == ny) {
+                        successor = temp;
+                        break;
+                    }
+                    temp = temp->next;
+                }
+
+                if (successor == NULL) {
+                    successor = (Node*)malloc(sizeof(Node));
+                    successor->pt.x = nx;
+                    successor->pt.y = ny;
+                    successor->g = gNew;
+                    successor->h = hNew;
+                    successor->f = fNew;
+                    successor->parent = current;
+                    addNode(&openList, successor);
+                } else if (fNew < successor->f ||
+                           (fNew == successor->f && (nx > successor->pt.x ||
+                           (nx == successor->pt.x && ny > successor->pt.y)))) {
+                    successor->g = gNew;
+                    successor->h = hNew;
+                    successor->f = fNew;
+                    successor->parent = current;
                 }
             }
         }
     }
-    // No path found
+    printf("\n");
 }
 
 int main() {
-    scanf("%d %d", &a, &b);
-
-    // 此处刷新缓冲区, 机动处理换行符
-    // 有问题就删
-    getchar();
-
-    for (int i = 0; i < a; i++)
-    {
-        for (int j = 0; j < b; j++)
-        {
-            maze[i][j] = getchar();
-            if (maze[i][j] == '\n')
-                maze[i][j] = getchar();
-            if (maze[i][j] == '*')
-            {
-                startX = i;
-                startY = j;
-                maze[i][j] = '0';
-            }
-            else if (maze[i][j] == '$')
-            {
-                keyX = i;
-                keyY = j;
-                maze[i][j] = '0';
-            }
-            else if (maze[i][j] == '#')
-            {
-                exitX = i;
-                exitY = j;
-                maze[i][j] = '0';
-            }
-        }
+    readMaze();
+    memset(visited, 0, sizeof(visited));
+    dfsFlag = 0;
+    dfs(start.x, start.y, 0);
+    for (int i = 0; i < pathLen; i++) {
+        printf("%c", path[i]);
     }
-    memset(visited, 0, sizeof(visited));
-    DFS(startX, startY);
-    for (int i = 0; i < moveIndex; i++)
-        printf("%c", moves[i]);
-    
-    printf("\n");
-    // 来计算最短路径
-    memset(visited, 0, sizeof(visited));
-    BFS();
-    printf("%d\n", minDistance);
-    AStar();
-
+    printf("\n%d\n", minSteps);
+    aStar();
     return 0;
 }
