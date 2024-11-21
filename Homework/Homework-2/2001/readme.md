@@ -12,7 +12,7 @@
 
 其中，#表示空，表示层次遍历序列。该案例应输出：
 
-```
+```plain
 preOrderTraverse is: 1 2 4 8 9 5 3 6 10 7
 inOrderTraverse is: 8 4 9 2 5 1 6 10 3 7
 postOrderTraverse is: 8 9 4 5 2 10 6 7 3 1
